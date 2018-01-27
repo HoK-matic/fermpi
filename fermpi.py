@@ -83,10 +83,7 @@ class FermentationThread(threading.Thread):
 
        use the same basic functionality to measure the temperature
        and switch the heater on and off.
-       
-       Once started, the fermentation thread can be stopped by
-       setting it's corresponding event.
-    """
+     """
     IDLE = 0
     HEATING = 1
     WAITING_FOR_PEAK = 2
