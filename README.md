@@ -30,7 +30,9 @@ Copyright (©) 2018 Holger Kupke. All rights reserved.
 
 ##
 **Note:**
- * tested on ***RPi-3*** with ***Raspbian Stretch*** and ***Python 2.7***.
+
+I am brewing my own beer and was looking for ways to optimize the brewing process. I did not want to buy expensive hardware so I decided to do it on my own. A Rasperry Pi was available. The only hardware I needed to buy was a relay board and a temperature sensor for less than €10.
+
 ##
 
 ## System Requirements:
