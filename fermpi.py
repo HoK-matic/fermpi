@@ -75,14 +75,9 @@ thread = None
 class FermentationThread(threading.Thread):
     """Base class for all operation  modes
 
-       The different operation modes
-
-           - idle mode
-           - constant mode
-           - levelling mode
-
-       use the same basic functionality to measure the temperature
-       and switch the heater on and off.
+       The different operation modes are using the same basic
+       functionality to measure the temperature and switch the
+       heater on and off.
      """
     IDLE = 0
     HEATING = 1
@@ -149,7 +144,7 @@ class FermentationThread(threading.Thread):
 
            The W1ThermSensor-Interface is used to read the temperature
            values of the available sensors. The previous values are
-           stored for comparision with the current values.
+           stored.
         """
         self._logger.info(" ----------------------------------------")
         self._logger.info(" Reading sensor values...")
@@ -170,7 +165,7 @@ class FermentationThread(threading.Thread):
             self._logger.info(" Overshoot:  %s°C" % ("{:>6.2f}".format(self._overshoot)))
 
     def _log_temperatures(self, ts):
-        """Logs the temperature values into the database.
+        """Logs the temperature values.
 
            Args:
                ts (int) = timestamp
@@ -205,14 +200,13 @@ class FermentationThread(threading.Thread):
 class IdleMode(FermentationThread):
     """Implementation of the fermentation controller's idle mode.
 
-       This mode is used to just log the current temperature values to the
-       database.
+       This mode is used to just log the current temperature values.
     """
     def __init__(self, id, gpio):
         FermentationThread.__init__(self, id, gpio)
 
     def _log_temperatures(self, ts):
-        """Logs the current temperature values into the database.
+        """Logs the current temperature values.
 
            Args:
                ts (int) = timestamp
