@@ -36,7 +36,7 @@ Copyright (©) 2018 Holger Kupke. All rights reserved.
  * Raspberry Pi
  * Adafruit **[W1ThermSensor](https://github.com/timofurrer/w1thermsensor)** library
  * supported sensor device (e.g. **[DS18B20](https://www.ebay.de/itm/DS18B20-Waterproof-Digital-Sensor-Thermal-Probe-Temperature-Thermometer-Arduino-/111431573979)**)
- * 5V relay interface module (e.g. **[SainSmart 2-CH](https://www.ebay.de/i/221441539498?chn=ps)**)
+ * 5V relay interface board (e.g. **[SainSmart 2-CH](https://www.ebay.de/i/221441539498?chn=ps)**)
  * Power socket (connected to the relay board)
  * **[MySQLdb](https://sourceforge.net/projects/mysql-python/)** driver (subject to change)
  * Python 2.7 (subject to change)
