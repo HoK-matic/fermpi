@@ -25,7 +25,4 @@ The controller operates in three different modes:
 The controller will be managed by a browser based
 user interface (under development).
 
-Date: 10.01.2018
-Author: Holger Kupke
-
 Copyright (©) 2018 Holger Kupke. All rights reserved.
