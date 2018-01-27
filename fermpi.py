@@ -52,10 +52,10 @@ from w1thermsensor import W1ThermSensor
 HEATER_GPIO = 21
 
 # database parameters
-DB_HOST = 'homenet'
-DB_USER = 'fermpi'
-DB_PWD = 'frosttau97'
-DB_NAME = 'fermpi'
+DB_HOST = 'db server'
+DB_USER = 'db user'
+DB_PWD = 'db password'
+DB_NAME = 'db name'
 
 # controller states
 FPI_STATE_OFF = int(0)
