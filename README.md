@@ -41,3 +41,25 @@ Copyright (©) 2018 Holger Kupke. All rights reserved.
  * Power socket (connected to the relay board)
  * **[MySQLdb](https://sourceforge.net/projects/mysql-python/)** driver (subject to change)
  * Python 2.7 (subject to change)
+ 
+ ## Installation
+  * download this repository
+  * create the MySQL database (see ***fermpi.sql***)
+  * make sure ***fermpi.py*** is executable
+  * copy the file ***fermpi.py*** to ***/usr/local/bin/***
+  * copy the file ***fermpi.service*** to ***/lib/systemd/system/***
+  * enable and start the ***fermpi*** service 
+
+If you type in ```sudo systemctl status fermpi.service``` it should say something like this:
+```
+● fermpi.service - FermPi - Fermentation Controller
+   Loaded: loaded (/lib/systemd/system/fermpi.service; enabled; vendor preset: enabled)
+   Active: active (running) since Wed 2018-01-10 10:57:47 CET; 25min 14s ago
+ Main PID: 16359 (python)
+   CGroup: /system.slice/fermpi.service
+           └─16359 python /usr/local/bin/fermpi.py
+
+Jan 10 10:57:47 FermPi systemd[1]: Started FermPi - Fermentation Controller.
+```
+
+Happy brewing...
