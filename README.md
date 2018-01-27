@@ -33,8 +33,8 @@ Copyright (©) 2018 Holger Kupke. All rights reserved.
 ##
 
 ## System Requirements:
- * Raspberry Pi (tested on ***RPi 3*** with ***Stretch***)
+ * Raspberry Pi
  * Adafruit **[W1ThermSensor](https://github.com/timofurrer/w1thermsensor)** library
- * Sensor device (e.g. DS18B20)
+ * supported sensor device (e.g. DS18B20)
  * **[MySQLdb](https://sourceforge.net/projects/mysql-python/)** (subject to change)
  * Python 2.7 (subject to change)
