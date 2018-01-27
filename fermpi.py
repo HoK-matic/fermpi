@@ -82,14 +82,10 @@ class FermentationThread(threading.Thread):
            - levelling mode
 
        use the same basic functionality to measure the temperature
-       by means of a sensor, and to switch the heater on and off by
-       means of a relay connected to a specific GPIO port.
-
+       and switch the heater on and off. by
+       
        Once started, the fermentation thread can be stopped by
-       setting it's event.
-
-       The fermentation logic is mode-specific and has to be
-       implemented in derived classes.
+       setting it's corresponding event.
     """
     IDLE = 0
     HEATING = 1
