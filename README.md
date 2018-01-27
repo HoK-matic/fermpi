@@ -31,7 +31,9 @@ Copyright (©) 2018 Holger Kupke. All rights reserved.
 ##
 **Note:**
 
-I am brewing my own beer and was looking for ways to optimize the brewing process. I did not want to buy expensive hardware so I decided to do it on my own. A Rasperry Pi 3 was available. The only additional hardware I needed to buy was a relay board and a temperature sensor for less than €10. I wrote a very basic browser interface, which will be upload soon. When I used this script in early January for the first time and the results were spectacular. The temperatures fluctuate only about 2 to 3 tenth of a degree. It's never been so easy!
+I am brewing my own beer and was looking for ways to optimize the brewing process. I did not want to buy expensive hardware so I decided to do it on my own. A Rasperry Pi 3 was available. The only additional hardware I needed to buy was a relay board and a temperature sensor for less than €10. I wrote a very basic browser interface, which will be upload soon.
+
+When I used this script in early January for the first time, the results were spectacular. The temperatures fluctuate only about 2 to 3 tenth of a degree. It's never been so easy!
 
 ##
 
