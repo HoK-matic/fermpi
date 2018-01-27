@@ -12,7 +12,7 @@ The controller operates in three different modes:
     e.g. for the fermentation of bread dough
 
   - gradual mode: the controller heats up and maintains
-    consecutive temperatures levels. Each level will be
+    consecutive temperature levels. Each level will be
     maintained for a configured period of time before
     heating up to the next level. After the last level
     the heater is switched off. This mode can be used
