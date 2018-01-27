@@ -26,3 +26,7 @@ The controller will be managed by a browser based
 user interface (under development).
 
 Copyright (©) 2018 Holger Kupke. All rights reserved.
+
+
+**Note**:
+ * tested on ***RPi-3*** with ***Raspbian Stretch*** and ***Python 2.7***.
