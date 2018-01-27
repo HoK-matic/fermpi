@@ -82,7 +82,7 @@ class FermentationThread(threading.Thread):
            - levelling mode
 
        use the same basic functionality to measure the temperature
-       and switch the heater on and off. by
+       and switch the heater on and off.
        
        Once started, the fermentation thread can be stopped by
        setting it's corresponding event.
