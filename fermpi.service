@@ -1,0 +1,13 @@
+[Unit]
+Description=FermPi - Fermentation Controller
+After=network.target mysql.service
+
+[Service]
+ExecStart=/usr/local/bin/fermpi.py
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
