@@ -35,8 +35,6 @@ I am brewing my own beer and was looking for ways to optimize the brewing proces
 
 When I used this script in early January for the first time, the results were spectacular. The temperatures fluctuate only about 2 to 3 tenth of a degree. It's never been so easy!
 
-##
-
 ## System Requirements:
  * Raspberry Pi
  * Python 2.7 (subject to change)
