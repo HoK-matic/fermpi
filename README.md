@@ -51,8 +51,6 @@ When I used this script in early January for the first time, the results were sp
   * extract the file ***fermpi-ui.tar.gz*** to your web-server's document root or any subdirectory 
   * edit the file ***config.inc.php*** in the ***includes*** directory and fill in your database credentials
   * save the file ***config.inc.php***
-  * you can open the UI by typing ***http://<your documentroot>/index.php***
-  
   * edit the file ***fermpi.py*** and fill in your database credentials
   * save the file ***fermpi.py***
   * make sure the file ***fermpi.py*** is executable
