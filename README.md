@@ -23,8 +23,8 @@ The controller operates in three different modes:
     the heater is switched off. This mode can be used
     e.g. for the mashing process.
 
-The controller will be managed by a browser based
-user interface (under development).
+The controller can be managed by a browser based
+user interface (see the nstallation instructions below).
 
 Copyright (©) 2018 Holger Kupke. All rights reserved.
 
@@ -37,6 +37,7 @@ When I used this script in early January for the first time, the results were sp
 
 ## System Requirements:
  * Raspberry Pi
+ * Webserver (e.g. Apache2)
  * Python 2.7 (subject to change)
  * **[MySQLdb](https://sourceforge.net/projects/mysql-python/)** driver (subject to change)
  * Adafruit **[W1ThermSensor](https://github.com/timofurrer/w1thermsensor)** library
@@ -50,6 +51,8 @@ When I used this script in early January for the first time, the results were sp
   * extract the file ***fermpi-ui.tar.gz*** to your web-server's document root or any subdirectory 
   * edit the file ***config.inc.php*** in the ***includes*** directory and fill in your database credentials
   * save the file ***config.inc.php***
+  * you can open the UI by typing ***http://<your documentroot>/index.php***
+  
   * edit the file ***fermpi.py*** and fill in your database credentials
   * save the file ***fermpi.py***
   * make sure the file ***fermpi.py*** is executable
@@ -68,5 +71,7 @@ If you type in ```sudo systemctl status fermpi.service``` it should say somethin
 
 Jan 10 10:57:47 FermPi systemd[1]: Started FermPi - Fermentation Controller.
 ```
+
+
 
 Happy brewing...
