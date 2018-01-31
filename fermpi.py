@@ -190,7 +190,7 @@ class FermentationThread(threading.Thread):
            The heater state is stored.
         """
         GPIO.output(self._gpio, GPIO.HIGH)
-        self._heater = HEATER_OFF
+        self._heater = self.HEATER_OFF
 
 
 class IdleMode(FermentationThread):
@@ -261,6 +261,9 @@ class ConstantMode(FermentationThread):
                 if row[3] != None:
                     self._duration = int(row[3])
 
+            cur.execute("UPDATE config SET value = '%s' WHERE item = 'target'" % (str(self._target)))
+            cur.execute("UPDATE config SET value = '%s' WHERE item = 'duration'" % (str(self._duration)))
+
             cur.execute("SELECT id, value FROM config WHERE item = 'overshoot'")
             row = cur.fetchone()
             if row is not None:
@@ -312,9 +315,10 @@ class ConstantMode(FermentationThread):
                         self._heater_on()
                         self.event.wait(20)
                         self._state = self.HEATING
-                elif self._heater == self.HEATER_ON:
-                    self._heater_off()
-                    self._state == self.WAITING_FOR_PEAK
+                elif self._sensors[0][2] > self._sensors[0][3]:
+                    if self._heater == self.HEATER_ON:
+                    	self._heater_off()
+                        self._state == self.WAITING_FOR_PEAK
 
                 if self._sensors[0][2] >= self._target:
                     self._timestamp = ts
@@ -337,7 +341,6 @@ class ConstantMode(FermentationThread):
                         # end thread
                         break
 
-                # keep on going
                 if self._sensors[0][2] <= (self._target - 0.10):
                     # temperature is below threshold
                     if self._sensors[0][2] < self._sensors[0][3]:
@@ -346,6 +349,10 @@ class ConstantMode(FermentationThread):
                         self.event.wait(10)
                         self._heater_off()
                         self._state = self.WAITING_FOR_PEAK
+                elif self._sensors[0][2] < self._sensors[0][3]:
+                    # temperature is decreasing
+                    self.state = self.IDLE
+
 
             self._logger.info(" ----------------------------------------")
             if self._state is self.HEATING:
@@ -363,8 +370,11 @@ class ConstantMode(FermentationThread):
         # reset configuration
         conn = mdb.connect(DB_HOST, DB_USER, DB_PWD, DB_NAME)
         with conn as cur:
+            cur.execute("UPDATE config SET value = '0' WHERE item = 'state'")
             cur.execute("UPDATE config SET value = '0' WHERE item = 'mode'")
             cur.execute("UPDATE config SET value = '0' WHERE item = 'log'")
+            cur.execute("UPDATE config SET value = '0' WHERE item = 'target'")
+            cur.execute("UPDATE config SET value = '0' WHERE item = 'duration'")
         conn.close()
 
         self._logger.info(" Leaving constant mode...")
@@ -395,6 +405,9 @@ class GradualMode(FermentationThread):
                     self._target = float(row[2])
                 if row[3] != None:
                     self._duration = int(row[3])
+
+                cur.execute("UPDATE config SET value = '%s' WHERE item = 'target'" % (str(self._target)))
+                cur.execute("UPDATE config SET value = '%s' WHERE item = 'duration'" % (str(self._duration)))
 
             cur.execute("SELECT id, value FROM config WHERE item = 'overshoot'")
             row = cur.fetchone()
@@ -436,6 +449,9 @@ class GradualMode(FermentationThread):
 
                         if row[i+1] != None:
                             self._duration = int(row[i+1])
+
+                        cur.execute("UPDATE config SET value = '%s' WHERE item = 'target'" % (str(self._target)))
+                        cur.execute("UPDATE config SET value = '%s' WHERE item = 'duration'" % (str(self._duration)))
 
                         bNext = True
                         break
@@ -487,9 +503,10 @@ class GradualMode(FermentationThread):
                         self._heater_on()
                         self.event.wait(20)
                         self._state = self.HEATING
-                elif self._heater == self.HEATER_ON:
-                    self._heater_off()
-                    self._state == self.WAITING_FOR_PEAK
+                elif self._sensors[0][2] > self._sensors[0][3]:
+                    if self._heater == self.HEATER_ON:
+                        self._heater_off()
+                        self._state == self.WAITING_FOR_PEAK
 
                 if self._sensors[0][2] >= self._target:
                     self._timestamp = ts
@@ -513,7 +530,6 @@ class GradualMode(FermentationThread):
                             # end thread
                             break
 
-                # keep on going
                 if self._sensors[0][2] <= (self._target - 0.10):
                     # temperature is below threshold
                     if self._sensors[0][2] < self._sensors[0][3]:
@@ -522,6 +538,9 @@ class GradualMode(FermentationThread):
                         self.event.wait(10)
                         self._heater_off()
                         self._state = self.WAITING_FOR_PEAK
+                elif self._sensors[0][2] < self._sensors[0][3]:
+                    # temperature is decreasing
+                    self.state = self.IDLE
 
             self._logger.info(" ----------------------------------------")
             if self._state is self.HEATING:
@@ -539,11 +558,14 @@ class GradualMode(FermentationThread):
         # reset configuration
         conn = mdb.connect(DB_HOST, DB_USER, DB_PWD, DB_NAME)
         with conn as cur:
+            cur.execute("UPDATE config SET value = '0' WHERE item = 'state'")
             cur.execute("UPDATE config SET value = '0' WHERE item = 'mode'")
             cur.execute("UPDATE config SET value = '0' WHERE item = 'log'")
+            cur.execute("UPDATE config SET value = '0' WHERE item = 'target'")
+            cur.execute("UPDATE config SET value = '0' WHERE item = 'duration'")
         conn.close()
 
-        self._logger.info(" Leaving constant mode...")
+        self._logger.info(" Leaving gradual mode...")
 
 
 def heater_off():
