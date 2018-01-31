@@ -51,7 +51,7 @@ When I used this script in early January for the first time, the results were sp
   * edit the file ***config.inc.php*** in the ***includes*** directory and fill in your database credentials
   * save the file ***config.inc.php***
   * edit the file ***fermpi.py*** and fill in your database credentials
-  * save the ***fermpi.py***
+  * save the file ***fermpi.py***
   * make sure the file ***fermpi.py*** is executable
   * copy the file ***fermpi.py*** to ***/usr/local/bin/***
   * copy the file ***fermpi.service*** to ***/lib/systemd/system/***
