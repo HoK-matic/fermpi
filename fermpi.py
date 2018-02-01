@@ -52,10 +52,10 @@ from w1thermsensor import W1ThermSensor
 HEATER_GPIO = 21
 
 # database parameters
-DB_HOST = '<db host>'
-DB_USER = '<db user>'
-DB_PWD = '<db password>'
-DB_NAME = '<db name>'
+DB_HOST = 'homenet'
+DB_USER = 'fermpi'
+DB_PWD = 'frosttau97'
+DB_NAME = 'fermpi'
 
 # controller states
 FPI_STATE_OFF = int(0)
@@ -162,18 +162,30 @@ class FermentationThread(threading.Thread):
             self._logger.info(" Target:     %s°C" % ("{:>6.2f}".format(self._target)))
             self._logger.info(" Overshoot:  %s°C" % ("{:>6.2f}".format(self._overshoot)))
 
-    def _log_temperatures(self, ts):
-        """Logs the temperature values.
+    def _log_data(self, ts):
+        """Logs the temperature values and the heater status.
 
            Args:
                ts (int) = timestamp
         """
         conn = mdb.connect(DB_HOST, DB_USER, DB_PWD, DB_NAME)
-        for i in range(0, len(self._sensors), 4):
-            with conn as cur:
+        with conn as cur:
+            # sensor temperatures
+            for i in range(0, len(self._sensors), 4):
                 cur.execute("""INSERT INTO logs (fermentation, sensor, temperature, timestamp)
                                VALUES (%s, %s, %1.2f, %d)""" %
                                (self._id, self._sensors[i][1], self._sensors[i][2], ts))
+            if self._id > 0:
+                # target temperatures
+                cur.execute("""INSERT INTO logs (fermentation, sensor, temperature, timestamp)
+                               VALUES (%s, %s, %1.2f, %d)""" %
+                               (self._id, 0, self._target, ts))
+
+                # heater state
+                cur.execute("""INSERT INTO logs (fermentation, sensor, temperature, timestamp)
+                               VALUES (%s, %s, %1.2f, %d)""" %
+                               (self._id, 99, self._heater, ts))
+
         conn.close
 
     def _heater_on(self):
@@ -222,7 +234,7 @@ class IdleMode(FermentationThread):
             ts = int(round(secs))
 
             # log temperatures
-            self._log_temperatures(ts)
+            self._log_data(ts)
 
             # sleep for the specified cycle time, or until event is set
             self.event.wait(self._cycle)
@@ -301,24 +313,19 @@ class ConstantMode(FermentationThread):
             ts = int(round(secs))
 
             # log temperatures
-            self._log_temperatures(ts)
+            self._log_data(ts, )
 
             # check phase
             if self._timestamp == 0:
                 # heating up
-                if self._sensors[0][2] < (self._target - self._overshoot):
+                if self._sensors[0][2] < self._target:
                     if self._heater == self.HEATER_OFF:
                         self._heater_on()
-                        self._state = self.HEATING
-                elif self._sensors[0][2] < self._sensors[0][3]:
-                    if self._heater == self.HEATER_OFF:
-                        self._heater_on()
-                        self.event.wait(20)
                         self._state = self.HEATING
                 elif self._sensors[0][2] > self._sensors[0][3]:
                     if self._heater == self.HEATER_ON:
                     	self._heater_off()
-                        self._state == self.WAITING_FOR_PEAK
+                        self._state = self.WAITING_FOR_PEAK
 
                 if self._sensors[0][2] >= self._target:
                     self._timestamp = ts
@@ -341,17 +348,19 @@ class ConstantMode(FermentationThread):
                         # end thread
                         break
 
-                if self._sensors[0][2] <= (self._target - 0.10):
-                    # temperature is below threshold
-                    if self._sensors[0][2] < self._sensors[0][3]:
-                        # temperature is decreasing
+                if self._sensors[0][2] <= self._target:
+                    if self._heater == self.HEATER_OFF:
                         self._heater_on()
-                        self.event.wait(10)
+                        self._state = self.HEATING
+                else:
+                    # target temperature reached
+                    if self._heater == self.HEATER_ON:
                         self._heater_off()
                         self._state = self.WAITING_FOR_PEAK
-                elif self._sensors[0][2] < self._sensors[0][3]:
-                    # temperature is decreasing
-                    self.state = self.IDLE
+
+                    if self._sensors[0][2] < self._sensors[0][3]:
+                        # temperature is decreasing
+                        self._state = self.IDLE
 
 
             self._logger.info(" ----------------------------------------")
@@ -489,7 +498,7 @@ class GradualMode(FermentationThread):
             ts = int(round(secs))
 
             # log temperatures
-            self._log_temperatures(ts)
+            self._log_data(ts)
 
             # check phase
             if self._timestamp == 0:
